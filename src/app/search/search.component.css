@@ -1,0 +1,11 @@
+.example-card {
+    width: 100%;
+    margin: 0 auto;
+}
+table {
+    width: 100%;
+  }
+  
+  th.mat-sort-header-sorted {
+    color: black;
+  }

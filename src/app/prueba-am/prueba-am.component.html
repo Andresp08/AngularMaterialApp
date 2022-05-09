@@ -1,0 +1,175 @@
+<form [formGroup]="form">
+  <mat-card class="shipping-card">
+    <mat-card-content>
+      <div class="row">
+        <div class="col">
+          <mat-form-field appearance="fill">
+            <mat-label>Nombre*</mat-label>
+            <input
+              matInput
+              placeholder="Nombre"
+              [(ngModel)]="dto.name"
+              formControlName="name"
+            />
+            <mat-error *ngIf="form.controls['name'].hasError('required')">
+              valor <strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="fill">
+            <mat-label>Apellidos*</mat-label>
+            <input
+              matInput
+              placeholder="Apellidos"
+              [(ngModel)]="dto.lastname"
+              formControlName="lastName"
+            />
+            <mat-error *ngIf="form.controls['lastName'].hasError('required')">
+              valor <strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="fill">
+            <mat-label>Correo electrónico*</mat-label>
+            <input
+              type="email"
+              matInput
+              placeholder="ejemplo@dominio.com"
+              [(ngModel)]="dto.email"
+              formControlName="email"
+            />
+            <mat-error *ngIf="form.controls['email'].hasError('required')">
+              valor <strong>requerido</strong>
+            </mat-error>
+            <mat-error
+              *ngIf="
+                form.controls['email'].hasError('pattern') &&
+                !form.controls['email'].hasError('required')
+              "
+            >
+              correo electrónico <strong>invalido</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="fill">
+            <mat-label>Celular *</mat-label>
+            <input
+              matInput
+              placeholder="315 123 4567"
+              [(ngModel)]="dto.cellphone"
+              formControlName="cellphone"
+              (input)="logicCelular($event)"
+            />
+            <mat-error *ngIf="form.controls['cellphone'].hasError('required')">
+              valor <strong>requerido</strong>
+            </mat-error>
+            <mat-error *ngIf="form.controls['cellphone'].hasError('maxlength')">
+              La longitud máxima es de 10 caractéres
+            </mat-error>
+            <mat-error *ngIf="form.controls['cellphone'].hasError('pattern')">
+              caracter <strong>invalido</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field appearance="fill">
+            <mat-label>Lista de frutas</mat-label>
+            <mat-select
+              formControlName="fruitList"
+              multiple
+              (selectionChange)="logicSelect($event)"
+            >
+              <mat-select-trigger>
+                {{
+                  form.controls["fruitList"].value
+                    ? form.controls["fruitList"].value[0]?.name
+                    : ""
+                }}
+                <span
+                  *ngIf="form.controls['fruitList'].value?.length > 1"
+                  class="example-additional-selection"
+                >
+                  (+{{ form.controls["fruitList"].value.length - 1 }}
+                  {{
+                    form.controls["fruitList"].value?.length === 2
+                      ? "otro"
+                      : "otros"
+                  }})
+                </span>
+              </mat-select-trigger>
+              <mat-option *ngFor="let e of elements" [value]="e">{{
+                e.name
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="fill">
+            <mat-label>Precio</mat-label>
+            <input
+              matInput
+              placeholder="Precio"
+              [(ngModel)]="dto.price"
+              formControlName="price"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-slide-toggle (change)="logicAddress($event)"
+            >¿Desea ingresar una dirección?</mat-slide-toggle
+          >
+        </div>
+        <!-- hola mundo -->
+        <!-- hla 2 -->
+      </div>
+      <div class="row">
+        <div class="col" *ngIf="showAddress">
+          <mat-form-field appearance="fill">
+            <mat-label>Dirección</mat-label>
+            <input
+              matInput
+              placeholder="Dirección"
+              [(ngModel)]="dto.address"
+              formControlName="address"
+              (input)="logicCelular($event)"
+            />
+            <mat-icon matSuffix>home</mat-icon>
+            <mat-error *ngIf="form.controls['address'].hasError('required')">
+              valor <strong>requerido</strong>
+            </mat-error>
+            <mat-error *ngIf="form.controls['address'].hasError('maxlength')">
+              La longitud máxima es de 10 caractéres
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button
+        mat-icon-button
+        aria-label="Example icon button with a vertical three dot icon"
+        [disabled]="!form.valid"
+        (click)="save()"
+      >
+        <mat-icon>save</mat-icon>
+      </button>
+      <div class="row" align="end">
+        <button
+          mat-mini-fab
+          aria-label="cancelar"
+          placeHolder="cancelar"
+          (click)="close()"
+        >
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</form>
